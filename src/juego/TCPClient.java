@@ -11,7 +11,7 @@ public class TCPClient {
 
     public static void main(String[] args) {
         try (
-            Socket socket = new Socket("localhost", 12345);
+            Socket socket = new Socket("98.92.91.168", 6000);
             BufferedReader in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
             PrintWriter out = new PrintWriter(socket.getOutputStream(), true);
             Scanner scanner = new Scanner(System.in)
@@ -22,24 +22,26 @@ public class TCPClient {
             while ((fromServer = in.readLine()) != null) {
                 System.out.println("Servidor: " + fromServer);
 
+                // Si el servidor se despide, terminamos el cliente.
                 if (fromServer.contains("Gracias por jugar")) {
-                    break; // Salir del bucle si el servidor se despide
+                    break;
                 }
 
-                if (fromServer.contains("Número correcto")) {
+                // Si el servidor pide jugar de nuevo, enviamos la respuesta.
+                if (fromServer.contains("¿Jugar de nuevo?")) {
                     System.out.print("Respuesta (s/n): ");
                     String response = scanner.nextLine();
                     out.println(response);
-                    if (!response.equalsIgnoreCase("s")) {
-                    }
                 } else {
                     System.out.print("Tu intento: ");
                     String userInput = scanner.nextLine();
                     out.println(userInput);
                 }
             }
+            System.out.println("Desconectado del servidor.");
+
         } catch (IOException e) {
-            e.printStackTrace();
+            System.err.println("No se pudo conectar al servidor o se perdió la conexión: " + e.getMessage());
         }
     }
 }
