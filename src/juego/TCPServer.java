@@ -15,8 +15,10 @@ public class TCPServer {
             System.out.println("Servidor TCP (Juego) iniciado en el puerto 12345. Esperando clientes...");
 
             while (true) {
+                // Acepta una nueva conexión de cliente
                 Socket clientSocket = serverSocket.accept();
                 System.out.println("Cliente conectado desde " + clientSocket.getInetAddress());
+                // Crea un nuevo hilo para manejar al cliente y lo inicia
                 new Thread(new ClientHandler(clientSocket)).start();
             }
         } catch (IOException e) {
@@ -48,8 +50,10 @@ public class TCPServer {
                 out.println("Adivina el número (entre 1 y 100)");
 
                 String inputLine;
+                // Bucle para leer los intentos del cliente mientras la conexión esté activa
                 while (running && (inputLine = in.readLine()) != null) {
                     try {
+                        // Convierte la entrada del cliente a un número entero
                         int adivina = Integer.parseInt(inputLine);
 
                         if (adivina < numerosecreto) {
@@ -57,7 +61,9 @@ public class TCPServer {
                         } else if (adivina > numerosecreto) {
                             out.println("El número es menor");
                         } else {
+                            // Si el cliente adivina el número
                             out.println("Número correcto ¿Jugar de nuevo? (s/n)");
+                            // Lee la respuesta del cliente para jugar de nuevo
                             String response = in.readLine();
                             if (response != null && response.equalsIgnoreCase("s")) {
                                 generarNumeroSecreto();
@@ -72,6 +78,7 @@ public class TCPServer {
                     }
                 }
             } catch (IOException e) {
+                // Se produce si el cliente se desconecta inesperadamente
                 System.out.println("Cliente " + clientSocket.getInetAddress() + " desconectado abruptamente.");
             } finally {
                 try {

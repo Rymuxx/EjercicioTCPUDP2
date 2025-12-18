@@ -22,17 +22,16 @@ public class TCPClient {
             while ((fromServer = in.readLine()) != null) {
                 System.out.println("Servidor: " + fromServer);
 
-                if (fromServer.contains("¡Número correcto!")) {
+                if (fromServer.contains("Gracias por jugar")) {
+                    break; // Salir del bucle si el servidor se despide
+                }
+
+                if (fromServer.contains("Número correcto")) {
                     System.out.print("Respuesta (s/n): ");
                     String response = scanner.nextLine();
                     out.println(response);
                     if (!response.equalsIgnoreCase("s")) {
-                        break;
                     }
-                } else if (fromServer.contains("¡Adivina el número!")) {
-                    System.out.print("Tu intento: ");
-                    String userInput = scanner.nextLine();
-                    out.println(userInput);
                 } else {
                     System.out.print("Tu intento: ");
                     String userInput = scanner.nextLine();

@@ -14,6 +14,7 @@ public class UDPClient {
             Scanner scanner = new Scanner(System.in)
         ) {
             InetAddress serverAddress = InetAddress.getByName("localhost");
+            // Puerto del servidor
             int serverPort = 54321;
 
             System.out.print("Introduce un número entero positivo: ");
